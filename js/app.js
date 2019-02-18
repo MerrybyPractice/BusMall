@@ -3,33 +3,25 @@
 var total_clicks = 25; //decriment from 25 before displaying results
 var product_block = document.getElementById('product_block');
 var right_img = document.getElementById('img_right');
+var right_title = document.getElementById('h2_right');
 var center_img = document.getElementById('img_center');
-var left_img = document.getElementById('img_left');s
-var product_array = ['hello'];
-var product_right = product_array[random_product];
-var product_center = product_array[random_product];
-var product_left = product_array[random_product];
-//helper functions
-//randomizer
-function random_product(){
-
-  Math.floor(Math.random*length.product_array);
-
-}
+var center_title = document.getElementById('h2_center');
+var left_img = document.getElementById('img_left');
+var left_title = document.getElementById('h2_left');
+var product_array = [];
 
 //constructor function
-function Product (name,file_path,id){
+var Product = function (name,file_path,id){
   this.name = name;
   this.img = file_path;
   this.shown = 0;
   this.id = id;
   this.clicked = 0;
   product_array.push(this);
-}
+};
 
 function fill_product_array(){
   new Product('R2D2 Suitcase', 'img/bag.jpg', 'r2d2_bag');
-  console.log(product_array);
   new Product('Banana Slicer', 'img/banana.jpg', 'banana_slicer');
   new Product('Bathroom IPad Stand', 'img/bathroom.jpg', 'bathroom_stand');
   new Product('Rain Sandals', 'img/boots.jpg', 'rain_sandals');
@@ -51,10 +43,32 @@ function fill_product_array(){
   new Product('The All Nose Wine Glass', 'img/wine-glass.jpg', 'wine-glass');
 }
 fill_product_array();
-console.log(product_array);
 
+var product_right = product_array[random_product()];
+console.log(product_right);
+var product_center = product_array[random_product()];
+var product_left = product_array[random_product()];
+// helper functions
+//randomizer
+function random_product(){
 
+  return Math.floor(Math.random()*product_array.length);
+}
 //render functions
+var render_product = function(product, target_img, target_h2){
+  target_img.src = product.img;
+  console.log(product.img);
+  target_h2.textContent = product.name;
+};
+// console.log(product_right.img);
+// console.log(product_left);
+// console.log(product_center);
+
+render_product(product_right, right_img, right_title);
+render_product(product_center, center_img, center_title);
+render_product(product_left, left_img, left_title);
+
+
 
 
 //event lisitiner
