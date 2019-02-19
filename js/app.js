@@ -99,28 +99,27 @@ var count_clicks = function (event){
   }
   product_right = product_array[random_product()];
 
-  if (last_array.includes(product_right)){
+  while (last_array.includes(product_right)){
     product_right = product_array[random_product()];
   }
 
   product_center = product_array[random_product()];
-  if (product_center === product_right){
+  while (product_center === product_right){
     product_center = product_array[random_product()];
   }
-  if(last_array.includes(product_center)){
+  while (last_array.includes(product_center)){
     product_center = product_array[random_product()];
   }
   product_left = product_array[random_product()];
-  if(product_left === product_right){
+  while (product_left === product_right){
     product_left = product_array[random_product()];
   }
-  if (product_left === product_center){
+  while (product_left === product_center){
     product_left = product_array[random_product()];
   }
-  if(last_array.includes(product_left)){
+  while (last_array.includes(product_left)){
     product_left = product_array[random_product()];
   }
-
   last_array.push(product_right);
   last_array.push(product_center);
   last_array.push(product_left);
