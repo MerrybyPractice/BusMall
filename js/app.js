@@ -1,6 +1,6 @@
+'use strict';
 //global variables
-//  declare displayed img 1, 2, 3
-var total_clicks = 25; //decriment from 25 before displaying results
+var total_clicks = 25;
 var product_block = document.getElementById('product_block');
 var right_img = document.getElementById('img_right');
 var right_title = document.getElementById('h2_right');
@@ -8,6 +8,7 @@ var center_img = document.getElementById('img_center');
 var center_title = document.getElementById('h2_center');
 var left_img = document.getElementById('img_left');
 var left_title = document.getElementById('h2_left');
+var 
 var product_array = [];
 
 //constructor function
@@ -45,7 +46,6 @@ function fill_product_array(){
 fill_product_array();
 
 var product_right = product_array[random_product()];
-console.log(product_right);
 var product_center = product_array[random_product()];
 var product_left = product_array[random_product()];
 // helper functions
@@ -54,24 +54,41 @@ function random_product(){
 
   return Math.floor(Math.random()*product_array.length);
 }
+function end_showing(){
+  if(total_clicks <= 0){
+    product_block.removeEventListener('click', count_clicks);
+
+  }
+}
 //render functions
 var render_product = function(product, target_img, target_h2){
   target_img.src = product.img;
-  console.log(product.img);
   target_h2.textContent = product.name;
 };
-// console.log(product_right.img);
-// console.log(product_left);
-// console.log(product_center);
-
-render_product(product_right, right_img, right_title);
-render_product(product_center, center_img, center_title);
-render_product(product_left, left_img, left_title);
+function render_images(){
+  render_product(product_right, right_img, right_title);
+  render_product(product_center, center_img, center_title);
+  render_product(product_left, left_img, left_title);
+}
 
 
-
+//event handler
+var count_clicks = function (event){
+  if (event.target.tagName === 'IMG'){
+    total_clicks --;
+    if(event.target.id === 'img_right'){
+      product_right.clicked ++;
+    }else if (event.target.id === 'img_center'){
+      product_center.clicked ++;
+    }else if (event.target.id === 'img_left')
+      product_left.clicked ++;
+  }
+  render_images();
+};
 
 //event lisitiner
-//event handler
+product_block.addEventListener('click', count_clicks);
+render_images();
 //init
+//count_clicks();
 
