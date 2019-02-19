@@ -10,6 +10,7 @@ var left_img = document.getElementById('img_left');
 var left_title = document.getElementById('h2_left');
 var results_list = document.getElementById('results_list');
 var product_array = [];
+var last_array = [];
 
 //constructor function
 var Product = function (name,file_path,id){
@@ -63,7 +64,7 @@ function end_showing(){
     center_img.src = null;
     for(var i= 0; i< product_array.length; i++){
       var li = document.createElement('li');
-      li.textContent = `Selected ${product_array[i].clicked} Times`;
+      li.textContent = `Selected ${product_array[i].name} ${product_array[i].clicked} times out of ${product_array[i].shown} times shown`;
       results_list.appendChild(li);
       if (i===product_array.length){
         break;
@@ -75,6 +76,7 @@ function end_showing(){
 //render functions
 var render_product = function(product, target_img, target_h2){
   target_img.src = product.img;
+  product.shown++;
   target_h2.textContent = product.name;
 };
 var render_images = function(){
@@ -96,15 +98,39 @@ var count_clicks = function (event){
       product_left.clicked ++;
   }
   product_right = product_array[random_product()];
+
+  if (last_array.contains(product_right)){
+    product_right = product_array[random_product()];
+  }
+
   product_center = product_array[random_product()];
+  if (product_center === product_right){
+    product_center = product_array[random_product()];
+  }
+  if(last_array.contains(product_center)){
+    product_center = product_array[random_product()];
+  }
   product_left = product_array[random_product()];
+  if(product_left === product_right){
+    product_left = [random_product()];
+  }
+  if (product_left === product_center){
+    product_left = [random_product()];
+  }
+  if(last_array.contains(product_left)){
+    product_left = [random_product()];
+  }
+
+  last_array.push(product_right);
+  last_array.push(product_center);
+  last_array.push(product_left);
   render_images();
+  end_showing();
 };
 
 //event lisitiner
 product_block.addEventListener('click', count_clicks);
 render_images();
-end_showing();
 //init
 
 
