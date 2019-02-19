@@ -8,7 +8,7 @@ var center_img = document.getElementById('img_center');
 var center_title = document.getElementById('h2_center');
 var left_img = document.getElementById('img_left');
 var left_title = document.getElementById('h2_left');
-var 
+var results_list = document.getElementById('results_list');
 var product_array = [];
 
 //constructor function
@@ -45,6 +45,7 @@ function fill_product_array(){
 }
 fill_product_array();
 
+
 var product_right = product_array[random_product()];
 var product_center = product_array[random_product()];
 var product_left = product_array[random_product()];
@@ -57,7 +58,18 @@ function random_product(){
 function end_showing(){
   if(total_clicks <= 0){
     product_block.removeEventListener('click', count_clicks);
+    right_img.src = null;
+    left_img.src = null;
+    center_img.src = null;
+    for(var i= 0; i< product_array.length; i++){
+      var li = document.createElement('li');
+      li.textContent = `Selected ${product_array[i].clicked} Times`;
+      results_list.appendChild(li);
+      if (i===product_array.length){
+        break;
 
+      }
+    }
   }
 }
 //render functions
@@ -65,17 +77,17 @@ var render_product = function(product, target_img, target_h2){
   target_img.src = product.img;
   target_h2.textContent = product.name;
 };
-function render_images(){
+var render_images = function(){
   render_product(product_right, right_img, right_title);
   render_product(product_center, center_img, center_title);
   render_product(product_left, left_img, left_title);
-}
-
+};
 
 //event handler
 var count_clicks = function (event){
   if (event.target.tagName === 'IMG'){
     total_clicks --;
+    console.log(total_clicks);
     if(event.target.id === 'img_right'){
       product_right.clicked ++;
     }else if (event.target.id === 'img_center'){
@@ -83,12 +95,16 @@ var count_clicks = function (event){
     }else if (event.target.id === 'img_left')
       product_left.clicked ++;
   }
+  product_right = product_array[random_product()];
+  product_center = product_array[random_product()];
+  product_left = product_array[random_product()];
   render_images();
 };
 
 //event lisitiner
 product_block.addEventListener('click', count_clicks);
 render_images();
+end_showing();
 //init
-//count_clicks();
+
 

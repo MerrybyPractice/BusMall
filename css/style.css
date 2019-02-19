@@ -1,3 +1,46 @@
+
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text|Montserrat');
+
+body{
+  font-family: 'Crimson Text', serif;
+  border: 2px; 
+  border-color: #5F7C7F;
+  background-color: #1D757F;
+  border: solid; 
+}
+section#restuls_block{
+  width: 25%; 
+  float: left;
+  background-color: #71EFFF;
+  border-color: #5F7C7F;
+  border: 2px;
+  border: solid; 
+}
 div#product_block{
+  width: 75%;
+  float: right; 
+  border-color: #5F7C7F;
+  border: 2px;
+  border: solid;
+}
+div#product_block > section{
   display: inline-block;
+  width: 30%;
+  border-color: #5F7C7F;
+  border: 2px;
+  border: solid;
+}
+div#product_block > section >img{
+width: 90%;
+border-color: #5F7C7F;
+  border: 2px;
+  border: solid;
+background-color: #5F7C7F;
+}
+div#product_block> section > h2{
+  text-align: center;
+  font-family: 'Montserrat', sans-serif; 
+  border-color: #5F7C7F;
+  border: 2px;
+  border: solid;
 }
