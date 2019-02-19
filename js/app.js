@@ -11,7 +11,8 @@ var left_title = document.getElementById('h2_left');
 var results_list = document.getElementById('results_list');
 var product_array = [];
 var last_array = [];
-
+var label_array = [];
+var clicks_array = [];
 //constructor function
 var Product = function (name,file_path,id){
   this.name = name;
@@ -46,6 +47,19 @@ function fill_product_array(){
 }
 fill_product_array();
 
+function fill_label_array(){
+  for (var l = 0; l < product_array.length; l++){
+    label_array.push(product_array[l].name);
+    console.log(product_array[l].name);
+  }
+  
+}
+function fill_clicks_array(){
+  for (var c = 0; c < product_array.length; c++){
+    clicks_array.push(product_array[c].clicked);
+    console.log(product_array[c].clicked);
+  }
+}
 
 var product_right = product_array[random_product()];
 var product_center = product_array[random_product()];
@@ -72,6 +86,12 @@ function end_showing(){
       }
     }
   }
+  if(total_clicks <= 0){
+    console.log(clicks_array);
+    fill_clicks_array();
+  render_chart();
+  }
+  
 }
 //render functions
 var render_product = function(product, target_img, target_h2){
@@ -89,9 +109,10 @@ var render_images = function(){
 var count_clicks = function (event){
   if (event.target.tagName === 'IMG'){
     total_clicks --;
-    console.log(total_clicks);
     if(event.target.id === 'img_right'){
       product_right.clicked ++;
+      console.log(product_right.clicked);
+      console.log(product_right);
     }else if (event.target.id === 'img_center'){
       product_center.clicked ++;
     }else if (event.target.id === 'img_left')
@@ -126,10 +147,54 @@ var count_clicks = function (event){
   render_images();
   end_showing();
 };
+//render chart
+function render_chart(){
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: label_array,
+      datasets:[{
+        label:'# of Votes',
+        data: clicks_array,
+        backgroundColor: [
+          'rgba(255,99,123,0.2)',
+          'rgba(54,162,235,0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153,102,255,0.2)',
+          'rgba(255,159,64,0.2)',
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54,162,235,1)',
+          'rgba(255,206,86,1)',
+          'rgba(75,192,192,1)',
+          'rgba(153,102,255,1)',
+          'rgba(255,159,64,1',
 
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{ 
+          tickets:{
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}
 //event lisitiner
 product_block.addEventListener('click', count_clicks);
 render_images();
+fill_label_array();
+
+
+
 //init
 
 
