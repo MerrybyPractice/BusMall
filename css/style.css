@@ -44,3 +44,6 @@ div#product_block> section > h2{
   border: 2px;
   border: solid;
 }
+div#chart{ 
+  width: 50%;
+}
