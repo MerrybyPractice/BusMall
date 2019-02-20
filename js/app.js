@@ -23,6 +23,20 @@ var Product = function (name,file_path,id){
   product_array.push(this);
 };
 
+function shuffle(array) {
+  var m = array.length, t, i;
+
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
+
 function fill_product_array(){
   new Product('R2D2 Suitcase', 'img/bag.jpg', 'r2d2_bag');
   new Product('Banana Slicer', 'img/banana.jpg', 'banana_slicer');
@@ -50,9 +64,9 @@ fill_product_array();
 function fill_label_array(){
   for (var l = 0; l < product_array.length; l++){
     label_array.push(product_array[l].name);
-    console.log(product_array[l].name);
+
   }
-  
+
 }
 function fill_clicks_array(){
   for (var c = 0; c < product_array.length; c++){
@@ -65,6 +79,16 @@ var product_right = product_array[random_product()];
 var product_center = product_array[random_product()];
 var product_left = product_array[random_product()];
 // helper functions
+
+function getRandomColor(){
+  var characters = '123456789ABEF'.split('');
+  var color = '#';
+  for (var y = 0; y < 6; y++){
+    color+=characters[Math.floor(Math.random()*16)];
+  }
+  return color;
+}
+
 //randomizer
 function random_product(){
 
@@ -87,11 +111,10 @@ function end_showing(){
     }
   }
   if(total_clicks <= 0){
-    console.log(clicks_array);
     fill_clicks_array();
-  render_chart();
+    render_chart();
   }
-  
+
 }
 //render functions
 var render_product = function(product, target_img, target_h2){
@@ -107,46 +130,33 @@ var render_images = function(){
 
 //event handler
 var count_clicks = function (event){
+  console.log('hello!');
   if (event.target.tagName === 'IMG'){
     total_clicks --;
     if(event.target.id === 'img_right'){
       product_right.clicked ++;
-      console.log(product_right.clicked);
-      console.log(product_right);
     }else if (event.target.id === 'img_center'){
       product_center.clicked ++;
     }else if (event.target.id === 'img_left')
       product_left.clicked ++;
   }
-  product_right = product_array[random_product()];
 
-  if (last_array.includes(product_right)){
-    product_right = product_array[random_product()];
-  }
+  var handler_array = [];
+  product_array = shuffle(product_array);
+  handler_array.push(product_array.pop());
+  handler_array.push(product_array.pop());
+  handler_array.push(product_array.pop());
+  product_array = product_array.concat(last_array);
 
-  product_center = product_array[random_product()];
-  if (product_center === product_right){
-    product_center = product_array[random_product()];
-  }
-  if (last_array.includes(product_center)){
-    product_center = product_array[random_product()];
-  }
-  product_left = product_array[random_product()];
-  if (product_left === product_right){
-    product_left = product_array[random_product()];
-  }
-  if (product_left === product_center){
-    product_left = product_array[random_product()];
-  }
-  if (last_array.includes(product_left)){
-    product_left = product_array[random_product()];
-  }
-  last_array.push(product_right);
-  last_array.push(product_center);
-  last_array.push(product_left);
+  product_left=handler_array[0];
+  product_center=handler_array[1];
+  product_right=handler_array[2];
+
+  last_array=handler_array;
   render_images();
   end_showing();
 };
+
 //render chart
 function render_chart(){
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -158,28 +168,71 @@ function render_chart(){
         label:'# of Votes',
         data: clicks_array,
         backgroundColor: [
-          'rgba(255,99,123,0.2)',
-          'rgba(54,162,235,0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153,102,255,0.2)',
-          'rgba(255,159,64,0.2)',
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54,162,235,1)',
-          'rgba(255,206,86,1)',
-          'rgba(75,192,192,1)',
-          'rgba(153,102,255,1)',
-          'rgba(255,159,64,1',
-
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
         ],
         borderWidth: 1
       }]
     },
     options: {
+      legends:{
+        labels:{
+          fontcolor:'#000',
+          fontsize: '10',
+        }
+      },
       scales: {
-        yAxes: [{ 
+        yAxes: [{
           tickets:{
             beginAtZero:true
           }

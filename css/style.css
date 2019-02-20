@@ -8,7 +8,7 @@ body{
   background-color: #1D757F;
   border: solid; 
 }
-section#restuls_block{
+section#results_block{
   width: 25%; 
   float: left;
   background-color: #71EFFF;
@@ -16,8 +16,12 @@ section#restuls_block{
   border: 2px;
   border: solid; 
 }
+ul#results_list{
+  width: 75%; 
+  overflow: auto; 
+}
 div#product_block{
-  width: 75%;
+  width: 70%;
   float: right; 
   border-color: #5F7C7F;
   border: 2px;
