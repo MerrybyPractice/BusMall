@@ -63,19 +63,15 @@ function fill_product_array(){
 }
 fill_product_array();
 
-function fill_label_array(){
+function fill_chart_arrays(){
   for (var l = 0; l < product_array.length; l++){
     label_array.push(product_array[l].name);
+    clicks_array.push(product_array[l].clicked);
 
   }
 
 }
-function fill_clicks_array(){
-  for (var c = 0; c < product_array.length; c++){
-    clicks_array.push(product_array[c].clicked);
-    console.log(product_array[c].clicked);
-  }
-}
+
 
 var product_right = product_array[random_product()];
 var product_center = product_array[random_product()];
@@ -113,7 +109,7 @@ function end_showing(){
     }
   }
   if(total_clicks <= 0){
-    fill_clicks_array();
+    fill_chart_arrays();
     render_bar_chart();
   }
 
@@ -160,6 +156,7 @@ var count_clicks = function (event){
 //render charts
 function render_bar_chart(){
   var ctx = document.getElementById('myChart').getContext('2d');
+  // eslint-disable-next-line
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -244,6 +241,7 @@ function render_bar_chart(){
 
 function render_pie_chart(){
   var ctx = document.getElementById('myChart').getContext('2d');
+  // eslint-disable-next-line
   var myChart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -338,7 +336,6 @@ console.log('click');
 product_block.addEventListener('click', count_clicks);
 chart_button.addEventListener('click', pressed_chart_button);
 render_images();
-fill_label_array();
 
 //init
 
