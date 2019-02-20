@@ -13,6 +13,8 @@ var product_array = [];
 var last_array = [];
 var label_array = [];
 var clicks_array = [];
+var chart_button = document.getElementById('chart_button');
+var click_counter = 0;
 //constructor function
 var Product = function (name,file_path,id){
   this.name = name;
@@ -112,7 +114,7 @@ function end_showing(){
   }
   if(total_clicks <= 0){
     fill_clicks_array();
-    render_chart();
+    render_bar_chart();
   }
 
 }
@@ -130,7 +132,6 @@ var render_images = function(){
 
 //event handler
 var count_clicks = function (event){
-  console.log('hello!');
   if (event.target.tagName === 'IMG'){
     total_clicks --;
     if(event.target.id === 'img_right'){
@@ -156,9 +157,8 @@ var count_clicks = function (event){
   render_images();
   end_showing();
 };
-
-//render chart
-function render_chart(){
+//render charts
+function render_bar_chart(){
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
@@ -241,12 +241,104 @@ function render_chart(){
     }
   });
 }
+
+function render_pie_chart(){
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: label_array,
+      datasets:[{
+        label:'# of Votes',
+        data: clicks_array,
+        backgroundColor: [
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+        ],
+        borderColor: [
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+          getRandomColor(),
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      legends:{
+        labels:{
+          fontcolor:'#000',
+          fontsize: '10',
+        }
+      },
+      scales: {
+        yAxes: [{
+          tickets:{
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}
+function pressed_chart_button(event){
+  click_counter++;
+  if (event.target.id==='chart_button' && click_counter %2 === 1){
+    render_pie_chart();
+  }else if (event.target.id ==='chart_button'&& click_counter %2 === 0){
+    render_bar_chart();
+  }
+}
+console.log('click');
 //event lisitiner
 product_block.addEventListener('click', count_clicks);
+chart_button.addEventListener('click', pressed_chart_button);
 render_images();
 fill_label_array();
-
-
 
 //init
 

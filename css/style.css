@@ -51,3 +51,9 @@ div#product_block> section > h2{
 div#chart{ 
   width: 50%;
 }
+button#chart_button{
+  margin: 5%; 
+  width: 10%; 
+  height: 5%; 
+  background-color: #71EFFF
+}

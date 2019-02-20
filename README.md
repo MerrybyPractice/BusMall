@@ -1,6 +1,8 @@
 # BusMall
 Shuffel function taken from here: https://bost.ocks.org/mike/shuffle/ 
 
+After research done yesterday, I knew I wanted to do 
+
 
 As with many of my projects thus far, many of the key functions turned out to be methods of arrays. Two that were new to me are listed below, along with their MDN docs: 
 
