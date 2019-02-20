@@ -86,7 +86,7 @@ function getRandomColor(){
   var characters = '123456789ABEF'.split('');
   var color = '#';
   for (var y = 0; y < 6; y++){
-    color+=characters[Math.floor(Math.random()*16)];
+    color+=characters[Math.floor(Math.random()*13)];
   }
   return color;
 }
