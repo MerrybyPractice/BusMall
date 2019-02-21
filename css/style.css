@@ -4,15 +4,15 @@
 body{
   font-family: 'Crimson Text', serif;
   border: 2px; 
-  border-color: #5F7C7F;
-  background-color: #1D757F;
+  border-color: #000000;
+  background-color: #ffffff;
   border: solid; 
 }
 section#results_block{
   width: 25%; 
   float: left;
-  background-color: #71EFFF;
-  border-color: #5F7C7F;
+  background-color: #ffffff;
+  border-color: #000000;
   border: 2px;
   border: solid; 
 }
@@ -23,28 +23,28 @@ ul#results_list{
 div#product_block{
   width: 70%;
   float: right; 
-  border-color: #5F7C7F;
+  border-color: #000000;
   border: 2px;
   border: solid;
 }
 div#product_block > section{
   display: inline-block;
   width: 30%;
-  border-color: #5F7C7F;
+  border-color: #000000;
   border: 2px;
   border: solid;
 }
 div#product_block > section >img{
 width: 90%;
-border-color: #5F7C7F;
+border-color: #000000;
   border: 2px;
   border: solid;
-background-color: #5F7C7F;
+background-color: #ffffff;
 }
 div#product_block> section > h2{
   text-align: center;
   font-family: 'Montserrat', sans-serif; 
-  border-color: #5F7C7F;
+  border-color: #000000;
   border: 2px;
   border: solid;
 }
@@ -55,5 +55,7 @@ button#chart_button{
   margin: 5%; 
   width: 10%; 
   height: 5%; 
-  background-color: #71EFFF
+  background-color: #000000;
+  border-color: #ffffff;
+  color: #ffffff; 
 }
