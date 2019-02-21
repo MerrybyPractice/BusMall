@@ -9,8 +9,10 @@ body{
   border: solid; 
 }
 section#results_block{
-  width: 25%; 
-  float: left;
+  width: 45%; 
+  position: relative;
+  bottom:5%;
+  left:52.8%;
   background-color: #ffffff;
   border-color: #000000;
   border: 2px;
@@ -21,8 +23,7 @@ ul#results_list{
   overflow: auto; 
 }
 div#product_block{
-  width: 70%;
-  float: right; 
+  width: 70%; 
   border-color: #000000;
   border: 2px;
   border: solid;
@@ -35,11 +36,11 @@ div#product_block > section{
   border: solid;
 }
 div#product_block > section >img{
-width: 90%;
-border-color: #000000;
+  width: 90%;
+  border-color: #000000;
   border: 2px;
   border: solid;
-background-color: #ffffff;
+  background-color: #ffffff;
 }
 div#product_block> section > h2{
   text-align: center;
@@ -49,6 +50,7 @@ div#product_block> section > h2{
   border: solid;
 }
 div#chart{ 
+  float: left;
   width: 50%;
 }
 button#chart_button{

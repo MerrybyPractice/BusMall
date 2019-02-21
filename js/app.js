@@ -70,7 +70,24 @@ function fill_product_array(){
 }
 fill_product_array();
 
+function bubble_sort(array){
+  var flag = false;
+  while(flag === false){
+    flag = true;
+    for (var i=0; i<array.length-1; i++){
+      if (array[i].name>array[i+1].name){
+        console.log(array[i+1].name);
+        var holder = array[i];
+        array[i] = array[i+1];
+        array[i+1] = holder;
+        flag = false;
+      }
+    }
+  }
+}
+
 function fill_chart_arrays(){
+  bubble_sort(product_array);
   for (var l = 0; l < product_array.length; l++){
     label_array.push(product_array[l].name);
     clicks_array.push(product_array[l].clicked);
@@ -164,7 +181,7 @@ var count_clicks = function (event){
   product_center=handler_array[1];
   product_right=handler_array[2];
 
-  //spread
+
   render_images();
   end_showing();
   // stringify_array();
