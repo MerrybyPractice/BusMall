@@ -1,8 +1,8 @@
 'use strict';
-//ideas:
-//  a 'stable array' that does not get shuffled and is used for rendering the tables and storeing the data
+
 //global variables
 var total_clicks = 25;
+var click_counter = 0;
 var product_block = document.getElementById('product_block');
 var right_img = document.getElementById('img_right');
 var right_title = document.getElementById('h2_right');
@@ -11,17 +11,21 @@ var center_title = document.getElementById('h2_center');
 var left_img = document.getElementById('img_left');
 var left_title = document.getElementById('h2_left');
 var results_list = document.getElementById('results_list');
+var chart_button = document.getElementById('chart_button');
+var product_right;
+var product_center;
+var product_left;
+var my_bar_chart;
+var my_pie_chart;
 var product_array = [];
 var last_array = [];
 var handler_array = [];
 var label_array = [];
 var clicks_array = [];
-var chart_button = document.getElementById('chart_button');
-var click_counter = 0;
-var my_bar_chart;
-var my_pie_chart;
+var oldest_array = [];
 
 //constructor function
+
 var Product = function (name,number,file_path,id){
   this.name = name;
   this.number = number;
@@ -31,6 +35,8 @@ var Product = function (name,number,file_path,id){
   this.clicked = 0;
   product_array.push(this);
 };
+
+// helper functions
 
 function shuffle(array) {
   var m = array.length, t, i;
@@ -46,6 +52,30 @@ function shuffle(array) {
   return array;
 }
 
+// function random_product(){
+
+//   return Math.floor(Math.random()*product_array.length);
+// }
+
+function select_rcl(array){
+
+  handler_array = [];
+  product_array = shuffle(product_array);
+
+  handler_array.push(product_array.pop());
+  handler_array.push(product_array.pop());
+  handler_array.push(product_array.pop());
+
+  oldest_array = [...last_array];
+  last_array=[...handler_array];
+  product_array = product_array.concat(oldest_array);
+  product_left=handler_array[0];
+  product_center=handler_array[1];
+  product_right=handler_array[2];
+
+}
+
+//object instantation
 function fill_product_array(){
   new Product('R2D2 Suitcase', 14, 'img/bag.jpg', 'r2d2_bag'); //borken
   new Product('Banana Slicer', 2,'img/banana.jpg', 'banana_slicer');
@@ -70,80 +100,30 @@ function fill_product_array(){
 }
 fill_product_array();
 
-function bubble_sort(array){
-  var flag = false;
-  while(flag === false){
-    flag = true;
-    for (var i=0; i<array.length-1; i++){
-      if (array[i].name>array[i+1].name){
-        console.log(array[i+1].name);
-        var holder = array[i];
-        array[i] = array[i+1];
-        array[i+1] = holder;
-        flag = false;
-      }
-    }
-  }
-}
-
-function fill_chart_arrays(){
-  bubble_sort(product_array);
-  for (var l = 0; l < product_array.length; l++){
-    label_array.push(product_array[l].name);
-    clicks_array.push(product_array[l].clicked);
-
-  }
-
-}
-
-var product_right = product_array[random_product()];
-var product_center = product_array[random_product()];
-var product_left = product_array[random_product()];
-// helper functions
-
-function getRandomColor(){
-  var characters = '123456789ABEF'.split('');
-  var color = '#';
-  for (var y = 0; y < 6; y++){
-    color+=characters[Math.floor(Math.random()*13)];
-  }
-  return color;
-}
-
+//set local storage
 function stringify_array(){
   var stringy_product = JSON.stringify(product_array);
   localStorage.setItem('product_details', stringy_product);
 }
 
-//randomizer
-function random_product(){
-
-  return Math.floor(Math.random()*product_array.length);
-}
 function end_showing(){
-  if(total_clicks <= 0){
+  product_block.removeEventListener('click', count_clicks);
+  right_img.src = null;
+  left_img.src = null;
+  center_img.src = null;
+  for(var i= 0; i< product_array.length; i++){
+    var li = document.createElement('li');
+    li.textContent = `Selected ${product_array[i].name} ${product_array[i].clicked} times out of ${product_array[i].shown} times shown`;
+    results_list.appendChild(li);
+    if (i===product_array.length){
+      break;
 
-    product_array.concat(handler_array);
-    product_array.concat(last_array);
-    product_block.removeEventListener('click', count_clicks);
-    right_img.src = null;
-    left_img.src = null;
-    center_img.src = null;
-    for(var i= 0; i< product_array.length; i++){
-      var li = document.createElement('li');
-      li.textContent = `Selected ${product_array[i].name} ${product_array[i].clicked} times out of ${product_array[i].shown} times shown`;
-      results_list.appendChild(li);
-      if (i===product_array.length){
-        break;
-
-      }
     }
   }
-  if(total_clicks <= 0){
-    fill_chart_arrays();
-    render_bar_chart();
-    stringify_array();
-  }
+  fill_chart_arrays();
+  render_bar_chart();
+  stringify_array();
+
 
 }
 //render functions
@@ -158,7 +138,10 @@ var render_images = function(){
   render_product(product_left, left_img, left_title);
 };
 
-//event handler
+select_rcl(product_array);
+
+//event handler - this is the main function of the page, and many others are called within it
+
 var count_clicks = function (event){
   if (event.target.tagName === 'IMG'){
     total_clicks --;
@@ -169,24 +152,52 @@ var count_clicks = function (event){
     }else if (event.target.id === 'img_left')
       product_left.clicked ++;
   }
-
-  handler_array = [];
-  product_array = shuffle(product_array);
-  handler_array.push(product_array.pop());
-  handler_array.push(product_array.pop());
-  handler_array.push(product_array.pop());
-  last_array=[...handler_array];
-  product_array = product_array.concat(last_array);
-  product_left=handler_array[0];
-  product_center=handler_array[1];
-  product_right=handler_array[2];
-
+  select_rcl(product_array);
 
   render_images();
-  end_showing();
-  // stringify_array();
+  if(total_clicks === 0){
+    end_showing();
+  }
+  stringify_array();
 };
+
+//chart auxillary functions
+
+function bubble_sort(array){
+  var flag = false;
+  while(flag === false){
+    flag = true;
+    for (var i=0; i<array.length-1; i++){
+      if (array[i].name>array[i+1].name){
+        var holder = array[i];
+        array[i] = array[i+1];
+        array[i+1] = holder;
+        flag = false;
+      }
+    }
+  }
+}
+function fill_chart_arrays(){
+  bubble_sort(product_array);
+  for (var l = 0; l < product_array.length; l++){
+    label_array.push(product_array[l].name);
+    clicks_array.push(product_array[l].clicked);
+
+  }
+
+}
+function getRandomColor(){
+
+  var characters = '123456789ABEF'.split('');
+  var color = '#';
+  for (var y = 0; y < 6; y++){
+    color+=characters[Math.floor(Math.random()*13)];
+  }
+  return color;
+}
+
 //render charts
+
 function render_bar_chart(){
   var ctx = document.getElementById('myChart').getContext('2d');
   // eslint-disable-next-line
@@ -364,6 +375,7 @@ function render_pie_chart(){
 }
 
 //swap chart views
+
 function pressed_chart_button(event){
   click_counter++;
   if (event.target.id==='chart_button' && click_counter %2 === 1){
@@ -375,18 +387,18 @@ function pressed_chart_button(event){
   }
 }
 
-// check_local_storage();
 //event lisitiner
+
 product_block.addEventListener('click', count_clicks);
 chart_button.addEventListener('click', pressed_chart_button);
 render_images();
 
 //init
+// select_rcl();
+
 if(localStorage.getItem('product_details')){
   var stringy_product = localStorage.getItem('product_details');
   product_array = JSON.parse(stringy_product);
 }
 
-console.log(clicks_array);
-console.log(product_array);
 
